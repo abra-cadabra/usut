@@ -81,20 +81,12 @@ namespace TestRunnerFormsGui
             }
         }
 
-        /// <summary>
-        /// Adds a line to a bottom output window
-        /// </summary>
-        /// <param name="text"></param>
-        private void AddLogLine(string text)
-        {
-            OutputTextBox.Text += OutputMessagePre + text + Environment.NewLine;
-        }
 
         /// <summary>
         /// Parse file 
         /// </summary>
         /// <param name="fileName"></param>
-        private void ProcessFile(string fileName)
+        public void ProcessFile(string fileName)
         {
             var parser = new LogParser();
 
@@ -135,15 +127,24 @@ namespace TestRunnerFormsGui
                 
                 //calculate
                 AddLogLine(String.Format("{0} passed, {1} failed, {2} errors",
-                    testResults.Count(p=>p.Result == AssertionResults.Passed),
-                    testResults.Count(p=>p.Result == AssertionResults.Failed),
-                    testResults.Count(p=>p.Result == AssertionResults.Error)));
+                                         testResults.Count(p=>p.Result == AssertionResults.Passed),
+                                         testResults.Count(p=>p.Result == AssertionResults.Failed),
+                                         testResults.Count(p=>p.Result == AssertionResults.Error)));
 
             }
             catch (Exception ex)
             {
                 AddLogLine(String.Format("ERROR parsing tests. Reason: {0}", ex));
             }
+        }
+
+        /// <summary>
+        /// Adds a line to a bottom output window
+        /// </summary>
+        /// <param name="text"></param>
+        private void AddLogLine(string text)
+        {
+            OutputTextBox.Text += OutputMessagePre + text + Environment.NewLine;
         }
 
         private void ShowTestInfo(TestInfo test)
