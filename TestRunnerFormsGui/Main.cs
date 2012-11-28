@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using UnrealScriptUnitTestParser;
 
@@ -31,17 +28,17 @@ namespace TestRunnerFormsGui
         /// <summary>
         /// Cell style when test is failed
         /// </summary>
-        private DataGridViewCellStyle _failedStyle;
+        private readonly DataGridViewCellStyle _failedStyle;
 
         /// <summary>
         /// Cell style when there is error in test
         /// </summary>
-        private DataGridViewCellStyle _errorStyle;
+        private readonly DataGridViewCellStyle _errorStyle;
 
         /// <summary>
         /// Cell style when test is succeeded
         /// </summary>
-        private DataGridViewCellStyle _passedStyle;
+        private readonly DataGridViewCellStyle _passedStyle;
         #endregion
 
         #region Properties
