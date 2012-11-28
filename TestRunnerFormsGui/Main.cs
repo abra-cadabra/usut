@@ -13,22 +13,35 @@ namespace TestRunnerFormsGui
 {
     public partial class Main : Form
     {
-        public const string OutputMessagePre = "==>  ";
+        #region Constants
+        
+        /// <summary>
+        /// This thing is added to the beginning of each output log line
+        /// </summary>
+        private const string OutputMessagePre = "==>  ";
+
+        #endregion //Constants
+
         #region Fields
+        /// <summary>
+        /// File name with UDK log
+        /// </summary>
         private string _currentFileName;
+
         /// <summary>
         /// Cell style when test is failed
         /// </summary>
         private DataGridViewCellStyle _failedStyle;
+
         /// <summary>
         /// Cell style when there is error in test
         /// </summary>
         private DataGridViewCellStyle _errorStyle;
+
         /// <summary>
-        /// Cell style when test is succeded
+        /// Cell style when test is succeeded
         /// </summary>
         private DataGridViewCellStyle _passedStyle;
-
         #endregion
 
         #region Properties
