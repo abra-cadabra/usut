@@ -11,7 +11,6 @@ namespace UnitTests
     [TestFixture]
     public class AssertStringEqualTest
     {
-        
         private AssertStringEqual _tester;
 
         [SetUp]

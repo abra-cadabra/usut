@@ -49,34 +49,66 @@ namespace TestRunnerFormsGui
         #endregion
 
         #region Functions
-
-
+        
         public Main()
         {
             InitializeComponent();
 
-            _currentFileName = "";
+            //Create cell style colors
             _failedStyle = new DataGridViewCellStyle(Grid.DefaultCellStyle);
             _failedStyle.ForeColor = _failedStyle.SelectionForeColor =  Color.Red;
             _passedStyle = new DataGridViewCellStyle(Grid.DefaultCellStyle);
             _passedStyle.ForeColor = _passedStyle.SelectionForeColor = Color.Green;
             _errorStyle = new DataGridViewCellStyle(Grid.DefaultCellStyle);
             _errorStyle.ForeColor = _errorStyle.SelectionForeColor = Color.Goldenrod;
+
+            //Now what is a file name?
+            _currentFileName = "";
+            FileLabel.Text = "";
+            try
+            {
+                // Open file from command line?
+                var args = Environment.GetCommandLineArgs();
+                if (args.Length != 0)
+                {
+                    _currentFileName = args[0];
+                    ProcessFile(_currentFileName);
+                }
+            }
+            catch (NotSupportedException)
+            {
+                //Command line arguments are not supported by system. Eat it
+            }
         }
 
+        /// <summary>
+        /// Adds a line to a bottom output window
+        /// </summary>
+        /// <param name="text"></param>
         private void AddLogLine(string text)
         {
             OutputTextBox.Text += OutputMessagePre + text + Environment.NewLine;
         }
 
-        private void Process()
+        /// <summary>
+        /// Parse file 
+        /// </summary>
+        /// <param name="fileName"></param>
+        private void ProcessFile(string fileName)
         {
             var parser = new LogParser();
 
-            //Check file exists
-            if (!File.Exists(_currentFileName))
+            //Adjust current file name
+            if (_currentFileName != fileName)
             {
-                AddLogLine(String.Format("ERROR processing file '{0}', file does not exist", _currentFileName));
+                _currentFileName = fileName;
+                FileLabel.Text = fileName;
+            }
+
+            //Check file exists
+            if (!File.Exists(fileName))
+            {
+                AddLogLine(String.Format("ERROR processing file '{0}', file does not exist", fileName));
                 return;
             }
 
@@ -84,12 +116,12 @@ namespace TestRunnerFormsGui
             string fileText;
             try
             {
-                AddLogLine(String.Format("Opening file '{0}'",_currentFileName));
-                fileText = File.ReadAllText(_currentFileName);
+                AddLogLine(String.Format("Opening file '{0}'",fileName));
+                fileText = File.ReadAllText(fileName);
             }
             catch (Exception ex)
             {
-                AddLogLine(String.Format("ERROR Opening file '{0}'. Reason: {1}", _currentFileName, ex));
+                AddLogLine(String.Format("ERROR Opening file '{0}'. Reason: {1}", fileName, ex));
                 return;
             }
 
@@ -192,12 +224,12 @@ namespace TestRunnerFormsGui
             _currentFileName = FileDialog.FileName;
             FileLabel.Text = _currentFileName;
             ReloadButton.Enabled = true;
-            Process();
+            ProcessFile(_currentFileName);
         }
 
         private void ReloadButton_Click(object sender, EventArgs e)
         {
-            Process();
+            ProcessFile(_currentFileName);
         }
 
         private void Grid_SelectionChanged(object sender, EventArgs e)
